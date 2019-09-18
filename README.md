@@ -1,13 +1,13 @@
 <hr>
 
 ## COMP5704: Parallel Algorithms and Applications in Data Science
-### Project Title : <input here>
+### Project Title : Parallel Minimum Cuts in a Graph
 ### Name : Christopher Blackman
 ### E-Mail : christopher.blackman@cmail.carleton.ca
 
 <hr>
 
-##### Project Outline : Parallel Minimum Cuts in a Graph
+##### Project Outline : 
 A cut C=(S,T) of a graph is a partition of V of a graph G=(V,E) into two subsets S and T, such that the cut is the edges that have an endpoint in both S, and T.
 A cut where it's size or weight is no larger than any-other cut is defined as the min-cut.
 
