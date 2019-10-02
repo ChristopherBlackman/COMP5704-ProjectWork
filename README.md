@@ -19,10 +19,11 @@ Tarjan was one of the first papers to compute SCC in directed graphs, and undire
 
  
 ##### Startup Paper(s):
-  - Parallael Minimum Cuts in Near-linear Work and Low Depth https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=331608
-  - Minimum cuts in near-linear time https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=3210377
-  - A new approach to the minimum cut problem https://dl.acm.org/citation.cfm?doid=234533.234534
-  
+- https://ieeexplore-ieee-org.proxy.library.carleton.ca/document/8425156/references#references
+- https://ieeexplore-ieee-org.proxy.library.carleton.ca/document/6877288/references#references
+- https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=2733089
+- https://www-sciencedirect-com.proxy.library.carleton.ca/science/article/pii/0196677482900086
+- https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=2612692
 ##### Deliverables:
   - [x] Project Website (September 17th)
   - [ ] Literature Review (October 1st) : https://github.com/ChristopherBlackman/COMP5704-ProjectWork/blob/master/lit_rev/lit_rev.pdf
