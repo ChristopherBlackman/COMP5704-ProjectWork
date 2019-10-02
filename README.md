@@ -30,7 +30,7 @@ My goal is to be able to implement the parallel algorithm proposed by Barabara G
   
 ##### Deliverables:
   - [x] Project Website (September 17th)
-  - [ ] Literature Review (October 1st)
+  - [ ] Literature Review (October 1st) : https://github.com/ChristopherBlackman/COMP5704-ProjectWork/blob/master/lit_rev/lit_rev.pdf
   - [ ] Presentation Outline (November 12th)
   - [ ] Slide Presentation (Presentation November 27th, December 4th)
   - [ ] Final paper (December 6th)
