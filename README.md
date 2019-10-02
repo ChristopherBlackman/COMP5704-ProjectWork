@@ -1,13 +1,18 @@
 <hr>
 
 ## COMP5704: Parallel Algorithms and Applications in Data Science
-### Project Title : Parallel Minimum Cuts in a Graph
+### Project Title : Graph Connectivity In Undireced Graphs
 ### Name : Christopher Blackman
 ### E-Mail : christopher.blackman@cmail.carleton.ca
 
 <hr>
 
 ##### Project Outline : 
+In graph theory graph connectivity is the minimum number of vertices, or elements that need to be removed to separate nodes into isolated subgraphs. This feild can be split into two parts : the connectivity of directed graphs, and the connectivity of undirected graphs. In directed graphs we represent connectivity as Strongly Connected Components (SCC). Where a graph is said to be strongly connected if every vertex is reachable from every other vertex. The SCCs of a directed graph form a partition of subgraphs where they themselves are strongly connected. Directed graphs also have weakly connected components where they are defined as the diffrence of the origianl graph 'G', and 'S' the strongly connected components of graph G such that WCC is equal to  G\S.
+
+
+
+
 A cut C=(S,T) of a graph is a partition of V of a graph G=(V,E) into two subsets S and T, such that the cut is the edges that have an endpoint in both S, and T.
 A cut where it's size or weight is no larger than any-other cut is defined as the min-cut.
 
