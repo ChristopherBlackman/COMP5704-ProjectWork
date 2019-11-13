@@ -6,6 +6,8 @@
 #include <unordered_map>
 #include <set>
 
+#define DEBUG
+
 int main(int argc,char** argv)
 {
 	if (argc < 3) {exit(0);}
@@ -19,7 +21,7 @@ int main(int argc,char** argv)
 
 
 
-
+	// assume input has id ranging from 0...n-1 (continous)
 	//get input data in csv format (no header)
 	//
 	// integer,integer
@@ -50,6 +52,7 @@ int main(int argc,char** argv)
 		matrix[edge_b[i]][edge_a[i]] = 1;
 	}
 
+
 	// id's of nodes 
 
 	std::set<unsigned int> ids;
@@ -60,4 +63,38 @@ int main(int argc,char** argv)
 		ids.insert(edge_a[i]);
 		ids.insert(edge_b[i]);
 	}
+
+
+	// easy lock free non-zero data-structure
+	unsigned int   id_count  = (unsigned int) ids.size();
+	unsigned int*  adj_count = (unsigned int *)  malloc(sizeof(unsigned int  )*ids.size());
+	unsigned int** adj_list  = (unsigned int **) malloc(sizeof(unsigned int *)*ids.size());
+
+
+	//initialize tables 
+	#pragma omp parallel for
+	for(unsigned int i = 0; i < ids.size(); i++){
+		int j = 0;
+		adj_list[i] = (unsigned int*) malloc(sizeof(unsigned int )*matrix[i].size());
+		adj_count[i]= matrix[i].size();
+
+		for(const auto& n : matrix[i]){
+			adj_list[i][j] = n.first;
+			j++;
+		}
+	}
+
+	#ifdef DEBUG	
+	for(unsigned int i = 0; i < id_count; i++){
+		std::cout << i << " : ";
+
+		for(unsigned int j = 0; j < adj_count[i];j++){
+			std::cout << adj_list[i][j] << ", ";
+		}
+		std::cout << std::endl;
+	}
+	#endif
+	
+
+	
 }
