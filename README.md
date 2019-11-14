@@ -27,7 +27,7 @@ Tarjan was one of the first papers to compute SCC in directed graphs, and undire
 ##### Deliverables:
   - [x] Project Website (September 17th)
   - [ ] Literature Review (October 1st) : https://github.com/ChristopherBlackman/COMP5704-ProjectWork/blob/master/lit_rev/lit_rev.pdf
-  - [ ] Presentation Outline (November 12th)
+  - [x] Presentation Outline (November 12th) https://github.com/ChristopherBlackman/COMP5704-ProjectWork/blob/master/presentation_format/overview.pdf
   - [ ] Slide Presentation (Presentation November 27th, December 4th)
   - [ ] Final paper (December 6th)
   - [ ] Code and Data
