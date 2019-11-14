@@ -5,6 +5,7 @@
 #include <string.h>
 #include <unordered_map>
 #include <set>
+#include "a_forest.h"
 
 #define DEBUG
 
@@ -94,6 +95,8 @@ int main(int argc,char** argv)
 		std::cout << std::endl;
 	}
 	#endif
+
+	a_forest(id_count,adj_count,adj_list);
 	
 
 	

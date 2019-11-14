@@ -1,12 +1,19 @@
 #ifndef A_FOREST_H
 #define A_FOREST_H
 
+#include <iostream>
+#include <cstdio>
+#include <math.h>
+#include <atomic>
+
 /*
- * input : size   -- the number of unique ID's (assume from 0..n-1)
- * input : matrix -- the input graph (might change an adjacancy list or CSR lock free)
+ * input : const unsigned int size
+ *		- size of all id's
+ * input : const unsigned int*
+ * 		- size of all lists of lists
+ * input : const unsigned int**
+ * 		- graph represented as a adjacany list
  */
-void a_forest(	const unsigned int  	size, 
-		const unsigned int* 	adj_count,
-		const unsigned int** 	adj_list);
+void a_forest(unsigned int size, unsigned int* adj_count, unsigned int** adj_list);
 
 #endif
