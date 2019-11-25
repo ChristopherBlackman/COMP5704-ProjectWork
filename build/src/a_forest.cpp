@@ -1,10 +1,13 @@
 #include "a_forest.h"
+#include <random>
+#include <algorithm>
+#include <unordered_map>
 
 
 
 void link(unsigned int a, unsigned int b,std::atomic<unsigned int>* arr);
-
 void compress(unsigned a,std::atomic<unsigned int>* arr);
+unsigned int sample_frequent_element(std::atomic<unsigned int>* arr,const unsigned int& size, unsigned int num_samples = 1024);
 
 /* func  : a_forest
  * input : const unsigned int size
@@ -13,6 +16,7 @@ void compress(unsigned a,std::atomic<unsigned int>* arr);
  * 		- size of all lists of lists
  * input : const unsigned int**
  * 		- graph represented as a adjacany list
+ * Description : a_forest without random sampling
  */
 
 void a_forest(unsigned int size, unsigned int* adj_count, unsigned int** adj_list){
@@ -26,23 +30,126 @@ void a_forest(unsigned int size, unsigned int* adj_count, unsigned int** adj_lis
 		directed_tree[i].store(i,std::memory_order_relaxed);
 	}
 
+	// i : node
+	// j : neigbour
 	#pragma omp parallel for
 	for(unsigned int i = 0; i < size; i++){
 		#pragma omp parallel for
 		for (unsigned int j = 0; j < adj_count[i]; j++){
-			// call link operation
+			link(i,adj_list[i][j],directed_tree);
 		}
 	}
-
+	// i : node
+	// j : neigbour
 	#pragma omp parallel for
 	for(unsigned int i = 0; i < size; i++){
-		#pragma omp parallel for
-		for (unsigned int j = 0; j < adj_count[i]; j++){
-			// call compress operation
-		}
+		compress(i,directed_tree);
+	}
+
+	for(unsigned int i = 0; i < size; i++){
+		std::cout << directed_tree[i] << std::endl;
 	}
 
 }
+
+
+
+/* func  : a_forest_sample
+ * input : const unsigned int size
+ *		- size of all id's
+ * input : const unsigned int*
+ * 		- size of all lists of lists
+ * input : const unsigned int**
+ * 		- graph represented as a adjacany list
+ * input : unsigned int neigbour_rounds
+ * 		- number of samples
+ * input : unsigned int sample_count
+ * 		- number of samples taken
+ * Description : a_forest with random sampling
+ */
+
+void a_forest_sample(unsigned int size, unsigned int* adj_count, unsigned int** adj_list,unsigned int neigbour_rounds,unsigned int sample_count){
+
+	std::atomic<unsigned int>* directed_tree = new std::atomic<unsigned int>[size];
+
+	// set each id, to it's self
+	std::cout << "Init A_forest_Sample" << std::endl;
+
+	#pragma omp parallel for
+	for(unsigned int i = 0; i < size; i++){
+		directed_tree[i].store(i,std::memory_order_relaxed);
+	}
+
+	for(unsigned int n = 0; n < neigbour_rounds; n++){
+		#pragma omp parallel for
+		for(unsigned int i = 0; i < size; i++){
+			if(adj_count[i] > n){
+				link(i,adj_list[i][n],directed_tree);
+			}
+		}
+
+		#pragma omp parallel for
+		for(unsigned int i = 0; i < size; i++){
+			compress(i,directed_tree);
+		}
+		
+	}
+
+	unsigned int most_frequent = sample_frequent_element(directed_tree,size, 1024);
+
+
+	#pragma omp parallel for
+	for(unsigned int i = 0; i < size; i++){
+		
+		//skip
+		if(directed_tree[i].load(std::memory_order_relaxed) == most_frequent) continue;	
+
+		#pragma omp parallel for
+		for(unsigned int j = neigbour_rounds; j < adj_count[i]; j++){
+			link(i,adj_list[i][j],directed_tree);
+		}
+	}
+
+	// i : node
+	// j : neigbour
+	#pragma omp parallel for
+	for(unsigned int i = 0; i < size; i++){
+		compress(i,directed_tree);
+	}
+
+
+	for(unsigned int i = 0; i < size; i++){
+		std::cout << directed_tree[i] << std::endl;
+	}
+
+}
+
+
+unsigned int sample_frequent_element(std::atomic<unsigned int>* arr,const unsigned int& size, unsigned int num_samples){
+	std::unordered_map<unsigned int,unsigned int> sample_counts(32);
+	std::mt19937 gen;
+	std::uniform_int_distribution<unsigned int> distribution(0,size-1);
+
+	unsigned int maximum = 0;
+	unsigned int id = 0;
+
+	for(unsigned int i = 0; i < num_samples; i++){
+		unsigned int j = distribution(gen);
+		sample_counts[arr[j]]++;
+	}
+
+	for(std::pair<unsigned int,unsigned int> element : sample_counts){
+		if(element.second > maximum){
+			maximum = element.second;
+			id = element.first;
+		}
+	}
+
+	std::cout << "Selected Element : " << id << " with frequency : " << static_cast<float>(maximum)/static_cast<float>(num_samples) << std::endl;
+	return id;
+
+}
+
 
 
 /* func  : link
@@ -65,6 +172,7 @@ void link(unsigned int a, unsigned int b,std::atomic<unsigned int>* arr){
 		p1 = arr[arr[h].load(std::memory_order_relaxed)].load(std::memory_order_relaxed);
 		p2 = arr[l].load(std::memory_order_relaxed);
 	}
+
 	return;
 }
 

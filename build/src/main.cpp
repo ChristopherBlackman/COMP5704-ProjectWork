@@ -97,7 +97,6 @@ int main(int argc,char** argv)
 	#endif
 
 	a_forest(id_count,adj_count,adj_list);
-	
-
+	a_forest_sample(id_count,adj_count,adj_list,2,1024);
 	
 }
