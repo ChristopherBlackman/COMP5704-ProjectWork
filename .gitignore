@@ -1,0 +1,3 @@
+build/data/*.gz
+build/data/*.gr
+build/data/real/*
