@@ -6,10 +6,10 @@
 #include <unordered_map>
 #include <set>
 #include "a_forest.h"
-
+#include "timer.h"
 #include <stdio.h>
+#include "utils.h"
 
-//#define DEBUG
 
 int main(int argc,char** argv)
 {
@@ -84,7 +84,8 @@ int main(int argc,char** argv)
 
 	std::cout << "Creating A-List" << std::endl;
 	//initialize tables 
-	//#pragma omp parallel for
+	
+	#pragma omp parallel for num_threads(NUM_CORES)
 	for(unsigned int i = 0; i < ids.size(); i++){
 		int j = 0;
 		adj_list[i] = (unsigned int*) malloc(sizeof(unsigned int )*matrix[i].size());
@@ -110,9 +111,28 @@ int main(int argc,char** argv)
 	}
 	#endif
 
+	
+	double aforest_no_sample_time;
+	double aforest_with_sample_time;
+	double bfs;
+
+	Timer t = Timer();
+	t.Start();
+
 	a_forest(id_count,adj_count,adj_list);
+
+	t.Stop();
+	aforest_no_sample_time = t.Millisecs();
+	std::cout << t.Millisecs() << std::endl;
+
+
+	t.Start();
+
 	a_forest_sample(id_count,adj_count,adj_list,2,1024);
 
+	t.Stop();
+	aforest_with_sample_time = t.Millisecs();
+	std::cout << t.Millisecs() << std::endl;
 
 	for(unsigned int i = 0; i < ids.size(); i++){
 		free(adj_list[i]);
@@ -120,5 +140,32 @@ int main(int argc,char** argv)
 
 	free(adj_list);
 	free(adj_count);
+
+
+	std::string str_aforest_ns = "./"+ std::string(file_path) + "_" + "AFN" + "_" + std::to_string(NUM_CORES);
+	std::string str_aforest_s = "./"+ std::string(file_path) + "_" + "AF" + "_" + std::to_string(NUM_CORES);
+	
+	FILE* fd = fopen(str_aforest_ns.c_str(),"w+");
+
+	if (fd == NULL){
+		std::cout << "Error Opening FIle : " << str_aforest_ns << std::endl;
+	}
+	else{
+		std::string temp = std::to_string(aforest_no_sample_time);
+		fwrite(temp.c_str(),sizeof(char),temp.length(),fd);
+		fclose(fd);
+	}
+	
+	fd = fopen(str_aforest_s.c_str(),"w+");
+
+	if (fd == NULL){
+		std::cout << "Error Opening FIle : " << str_aforest_s << std::endl;
+	}
+	else{
+		std::string temp = std::to_string(aforest_with_sample_time);
+		fwrite(temp.c_str(),sizeof(char),temp.length(),fd);
+		fclose(fd);
+	}
+
 	
 }

@@ -2,6 +2,7 @@
 #include <random>
 #include <algorithm>
 #include <unordered_map>
+#include "utils.h"
 
 
 
@@ -25,32 +26,32 @@ void a_forest(unsigned int size, unsigned int* adj_count, unsigned int** adj_lis
 
 	// set each id, to it's self
 	std::cout << "Init : Afforest No Sampling" << std::endl;
-	#pragma omp parallel for
+	#pragma omp parallel for num_threads(NUM_CORES)
 	for(unsigned int i = 0; i < size; i++){
 		directed_tree[i].store(i,std::memory_order_relaxed);
 	}
 
 	// i : node
 	// j : neigbour
-	#pragma omp parallel for
+	#pragma omp parallel for num_threads(NUM_CORES)
 	for(unsigned int i = 0; i < size; i++){
-		#pragma omp parallel for
+		#pragma omp parallel for num_threads(NUM_CORES)
 		for (unsigned int j = 0; j < adj_count[i]; j++){
 			link(i,adj_list[i][j],directed_tree);
 		}
 	}
 	// i : node
 	// j : neigbour
-	#pragma omp parallel for
+	#pragma omp parallel for num_threads(NUM_CORES)
 	for(unsigned int i = 0; i < size; i++){
 		compress(i,directed_tree);
 	}
 
-	/*
+	#ifdef DEBUG
 	for(unsigned int i = 0; i < size; i++){
 		std::cout << directed_tree[i] << std::endl;
 	}
-	*/
+	#endif
 	delete[] directed_tree;
 
 }
@@ -78,36 +79,38 @@ void a_forest_sample(unsigned int size, unsigned int* adj_count, unsigned int** 
 	// set each id, to it's self
 	std::cout << "Init : Afforest Sampling" << std::endl;
 
-	#pragma omp parallel for
+	#pragma omp parallel for num_threads(NUM_CORES)
 	for(unsigned int i = 0; i < size; i++){
 		directed_tree[i].store(i,std::memory_order_relaxed);
 	}
 
+	#pragma omp parallel for num_threads(NUM_CORES)
 	for(unsigned int n = 0; n < neigbour_rounds; n++){
-		#pragma omp parallel for
+		#pragma omp parallel for num_threads(NUM_CORES)
 		for(unsigned int i = 0; i < size; i++){
 			if(adj_count[i] > n){
 				link(i,adj_list[i][n],directed_tree);
 			}
 		}
+	}
 
-		#pragma omp parallel for
-		for(unsigned int i = 0; i < size; i++){
-			compress(i,directed_tree);
-		}
-		
+	// i : node
+	// j : neigbour
+	#pragma omp parallel for num_threads(NUM_CORES)
+	for(unsigned int i = 0; i < size; i++){
+		compress(i,directed_tree);
 	}
 
 	unsigned int most_frequent = sample_frequent_element(directed_tree,size, 1024);
 
 
-	#pragma omp parallel for
+	#pragma omp parallel for num_threads(NUM_CORES)
 	for(unsigned int i = 0; i < size; i++){
 		
 		//skip
 		if(directed_tree[i].load(std::memory_order_relaxed) == most_frequent) continue;	
 
-		#pragma omp parallel for
+		#pragma omp parallel for num_threads(NUM_CORES)
 		for(unsigned int j = neigbour_rounds; j < adj_count[i]; j++){
 			link(i,adj_list[i][j],directed_tree);
 		}
@@ -115,17 +118,18 @@ void a_forest_sample(unsigned int size, unsigned int* adj_count, unsigned int** 
 
 	// i : node
 	// j : neigbour
-	#pragma omp parallel for
+	#pragma omp parallel for num_threads(NUM_CORES)
 	for(unsigned int i = 0; i < size; i++){
 		compress(i,directed_tree);
 	}
 
 
-	/*
+	#ifdef DEBUG
 	for(unsigned int i = 0; i < size; i++){
 		std::cout << directed_tree[i] << std::endl;
 	}
-	*/
+	#endif
+
 	delete[] directed_tree;
 
 }

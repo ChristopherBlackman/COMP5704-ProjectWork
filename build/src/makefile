@@ -5,13 +5,13 @@
 FLAGS = -Wall -pthread -fopenmp -lm -std=c++11
 LIBRARIES = ./lib
 
-build: main.o a_forest.o
+build: main.o a_forest.o utils.h
 	g++ $(FLAGS) -o main main.o a_forest.o -I $(LIBRARIES)
 
-main.o: main.cpp
+main.o: main.cpp utils.h
 	g++ $(FLAGS) -c main.cpp -I $(LIBRARIES)
 
-a_forest.o : a_forest.cpp
+a_forest.o : a_forest.cpp utils.h
 	g++ $(FLAGS) -c a_forest.cpp -I $(LIBRARIES)
 
 clean :
