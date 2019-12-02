@@ -51,6 +51,7 @@ void a_forest(unsigned int size, unsigned int* adj_count, unsigned int** adj_lis
 		std::cout << directed_tree[i] << std::endl;
 	}
 	*/
+	delete[] directed_tree;
 
 }
 
@@ -125,6 +126,7 @@ void a_forest_sample(unsigned int size, unsigned int* adj_count, unsigned int** 
 		std::cout << directed_tree[i] << std::endl;
 	}
 	*/
+	delete[] directed_tree;
 
 }
 

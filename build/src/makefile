@@ -2,7 +2,7 @@
 #  -g   	: debugging
 #  -pthread	: glibc-2.2+ {malloc,calloc,realloc,free,posix_memalign} are thread safe}
 
-FLAGS = -g -Wall -pthread -fopenmp -lm -std=c++11
+FLAGS = -Wall -pthread -fopenmp -lm -std=c++11
 LIBRARIES = ./lib
 
 build: main.o a_forest.o

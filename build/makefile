@@ -10,11 +10,15 @@ test_1:
 	./main data/fake/fake.csv , Low High 5
 test_2:
 	head data/fake/fake1.csv
-	./main data/fake/fake1.csv , Low High 5
+	valgrind --leak-check=full ./main data/fake/fake1.csv , Low High 5
 
 real_new_york:
 	head data/real/USA-road.csv
 	./main data/real/USA-road.csv , Low High 5
+
+real_full_usa:
+	head data/real/USA-road-full.csv
+	./main data/real/USA-road-full.csv , Low High 5
 
 
 clean:

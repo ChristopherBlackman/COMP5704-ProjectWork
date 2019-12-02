@@ -33,11 +33,14 @@ int main(int argc,char** argv)
 	//     .  ,   .
 	// integer,integer
 	
-	rapidcsv::Document doc(file_path,rapidcsv::LabelParams(-1,-1),rapidcsv::SeparatorParams(delimiter));
+	rapidcsv::Document* doc = new rapidcsv::Document(file_path,rapidcsv::LabelParams(-1,-1),rapidcsv::SeparatorParams(delimiter));
 
 
-	std::vector<unsigned int> edge_a = doc.GetColumn<unsigned int>(0);
-	std::vector<unsigned int> edge_b = doc.GetColumn<unsigned int>(1);
+	std::vector<unsigned int> edge_a = doc->GetColumn<unsigned int>(0);
+	std::vector<unsigned int> edge_b = doc->GetColumn<unsigned int>(1);
+
+	
+	delete doc;
 
 	std::cout << "Part 2" << std::endl;
 
@@ -70,6 +73,8 @@ int main(int argc,char** argv)
 		ids.insert(edge_b[i]);
 	}
 
+	edge_a.clear();
+	edge_b.clear();
 
 	// easy lock free non-zero data-structure
 	unsigned int   id_count  = (unsigned int) ids.size();
@@ -77,8 +82,9 @@ int main(int argc,char** argv)
 	unsigned int** adj_list  = (unsigned int **) malloc(sizeof(unsigned int *)*ids.size());
 
 
+	std::cout << "Creating A-List" << std::endl;
 	//initialize tables 
-	#pragma omp parallel for
+	//#pragma omp parallel for
 	for(unsigned int i = 0; i < ids.size(); i++){
 		int j = 0;
 		adj_list[i] = (unsigned int*) malloc(sizeof(unsigned int )*matrix[i].size());
@@ -89,6 +95,9 @@ int main(int argc,char** argv)
 			j++;
 		}
 	}
+
+
+	matrix.clear();
 
 	#ifdef DEBUG	
 	for(unsigned int i = 0; i < id_count; i++){
@@ -103,5 +112,13 @@ int main(int argc,char** argv)
 
 	a_forest(id_count,adj_count,adj_list);
 	a_forest_sample(id_count,adj_count,adj_list,2,1024);
+
+
+	for(unsigned int i = 0; i < ids.size(); i++){
+		free(adj_list[i]);
+	}
+
+	free(adj_list);
+	free(adj_count);
 	
 }
