@@ -16,7 +16,8 @@ However, for the purpose of this report we will only be dealing with undirected 
 
 Tarjan was one of the first papers to compute SCC in directed graphs, and undirected graphs. He used the .. <to be cont.>
 
-
+##### Data Set(s):
+- http://users.diag.uniroma1.it/challenge9/download.shtml
  
 ##### Startup Paper(s):
 - https://ieeexplore-ieee-org.proxy.library.carleton.ca/document/8425156/references#references
@@ -28,7 +29,7 @@ Tarjan was one of the first papers to compute SCC in directed graphs, and undire
   - [x] Project Website (September 17th)
   - [ ] Literature Review (October 1st) : https://github.com/ChristopherBlackman/COMP5704-ProjectWork/blob/master/lit_rev/lit_rev.pdf
   - [x] Presentation Outline (November 12th) https://github.com/ChristopherBlackman/COMP5704-ProjectWork/blob/master/presentation_format/overview.pdf
-  - [ ] Slide Presentation (Presentation November 27th, December 4th)
+  - [X] Slide Presentation (Presentation November 27th, December 4th) : https://docs.google.com/presentation/d/18n5dn4Y4MRnG0c3PNT-3uTUZOgMo9L7MzfzVuGIZ91Y/edit
   - [ ] Final paper (December 6th)
   - [ ] Code and Data
 ##### Relevant References:
