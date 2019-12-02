@@ -7,7 +7,9 @@
 #include <set>
 #include "a_forest.h"
 
-#define DEBUG
+#include <stdio.h>
+
+//#define DEBUG
 
 int main(int argc,char** argv)
 {
@@ -33,8 +35,11 @@ int main(int argc,char** argv)
 	
 	rapidcsv::Document doc(file_path,rapidcsv::LabelParams(-1,-1),rapidcsv::SeparatorParams(delimiter));
 
+
 	std::vector<unsigned int> edge_a = doc.GetColumn<unsigned int>(0);
 	std::vector<unsigned int> edge_b = doc.GetColumn<unsigned int>(1);
+
+	std::cout << "Part 2" << std::endl;
 
 	std::cout << "Read " << edge_a.size() << " values." << std::endl;
 	std::cout << "Read " << edge_b.size() << " values." << std::endl;

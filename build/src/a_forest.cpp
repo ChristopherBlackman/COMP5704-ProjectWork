@@ -24,7 +24,7 @@ void a_forest(unsigned int size, unsigned int* adj_count, unsigned int** adj_lis
 	std::atomic<unsigned int>* directed_tree = new std::atomic<unsigned int>[size];
 
 	// set each id, to it's self
-	std::cout << "Init Tree" << std::endl;
+	std::cout << "Init : Afforest No Sampling" << std::endl;
 	#pragma omp parallel for
 	for(unsigned int i = 0; i < size; i++){
 		directed_tree[i].store(i,std::memory_order_relaxed);
@@ -46,9 +46,11 @@ void a_forest(unsigned int size, unsigned int* adj_count, unsigned int** adj_lis
 		compress(i,directed_tree);
 	}
 
+	/*
 	for(unsigned int i = 0; i < size; i++){
 		std::cout << directed_tree[i] << std::endl;
 	}
+	*/
 
 }
 
@@ -73,7 +75,7 @@ void a_forest_sample(unsigned int size, unsigned int* adj_count, unsigned int** 
 	std::atomic<unsigned int>* directed_tree = new std::atomic<unsigned int>[size];
 
 	// set each id, to it's self
-	std::cout << "Init A_forest_Sample" << std::endl;
+	std::cout << "Init : Afforest Sampling" << std::endl;
 
 	#pragma omp parallel for
 	for(unsigned int i = 0; i < size; i++){
@@ -118,9 +120,11 @@ void a_forest_sample(unsigned int size, unsigned int* adj_count, unsigned int** 
 	}
 
 
+	/*
 	for(unsigned int i = 0; i < size; i++){
 		std::cout << directed_tree[i] << std::endl;
 	}
+	*/
 
 }
 
