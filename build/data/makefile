@@ -1,5 +1,5 @@
 get_data:
-	cd downloads && $(MAKE)
+	#cd downloads && $(MAKE)
 	cp downloads/*.csv real/
 
 clean_data:
