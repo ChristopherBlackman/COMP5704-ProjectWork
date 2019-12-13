@@ -4,6 +4,13 @@
 \usepackage[noend]{algpseudocode}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{subfig}
+\graphicspath{ {./figures/} }
+
+
+\newcommand*{\QEDA}{\hfill\ensuremath{\blacksquare}}%
+\newcommand*{\QEDB}{\hfill\ensuremath{\square}}%
 
 \makeatletter
 \def\BState{\State\hskip-\ALG@thistlm}
@@ -94,20 +101,40 @@ This algorithm was proposed by Michael Sutton et al.[1] where they attempt to do
 \EndWhile\label{euclidendwhile}
 \EndProcedure
 \end{algorithmic}
-\end{algorithm} 
+\end{algorithm}
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Case where CAS happens at both roots]{{\includegraphics[width=5cm]{fig-1} }}%
+    \qquad
+    \subfloat[Case where CAS happens at one root]{{\includegraphics[width=5cm]{fig-2} }}%
+    \caption{Link operation traversing up component trees linking edge(6,10)}%
+    \label{fig-link}%
+\end{figure}
  
   \paragraph{}
- \{put in a small example of a link step \}
+In figure \ref{fig-link}, we see the opeation of adding the edge with $u=6$, and $v=10$. We see that in both cases we traverse up to the largest root $4$, and we connect the tree rooted at $4$, to the tree rooted at $1$. It can be seen that not matter where we connect root $4$, there is always a path from from every element in the tree rooted at $4$ to the new component tree root $1$.
 
 
 
- \paragraph{}
+ \paragraph{Lemma 1.}
  If the endpoints of link $u$, and $v$ are within the same component tree, then the ancestors of the component tree do not change. Since a CAS operation is only triggered when the largest node is the root, and since our invarient proves that the root is the smallest value in the tree, the CAS opeartion is never triggured.
- 
+\QEDA 
+\paragraph{Lemma 2.}
+If the endpoints of link $u$, and $v$ are not within the same component tree, then the link operaiton will ensure that both trees are merged into one component tree. There are three possible cases that we need to conver to prove this.
+
+\begin{enumerate}
+  \item If the processors' $h$ remains the root, and CAS succeds, then we know that $h$, and $l$ are directly connected. Resulting in one connected component
+  \item If another processor connecets $h$ to the tree, then we apply lemma 1. This results in one connected component.
+  \item If another processor connecets $h$ to $l'$ such that $l'$ does not live in the tree of $u$, nor the tree of $v$. Then $h \neq \pi(h)$. We then repeat searching up the tree, and we end up with the same problem as decribed in Lemma 2. Since there are a finite number of vertecies, then there are also a finite number of components. Therefore the operation will complete results in one connected component containing both $u$ and $v$.
+\end{enumerate}
+\QEDA
+\paragraph{Lemma 3.}
+If we apply link to all edges, then the resulting component tree represents the CC of the original graph. $\forall edges(u,v)$, $u$ and $v$ will be in the same component since we apply link to all edges. Then by Lemmas' 2, and 3 all edge pairs will be in the same component.
+
 \paragraph{}
-If the endpoints of link $u$, and $v$ are not within the same component tree, then the link operaiton will ensure that both trees are merged into one component tree.
-
-
+By defenition a CC is connected if there exists a path between all pairs in the component. If we take one such path $x_1,x_2,...x_{n-1},x_n$ then link would be applied to : $(x_1,x_2),...,(x_{n-1},x_n)$. Which means all the nodes in the path will be in the component tree. If we take take the set of all paths and convert it to the set of all edges, then every vertex that is an element of a CC $C_i$, is also an element of a unique component tree coresponding $C_i$. Since we apply link to all edges, then we cover the set of all possible paths. Therefore the a resulting component tree represents a connected component in the original graph.
+\QEDA
  
  
  - how does afforest work\\
