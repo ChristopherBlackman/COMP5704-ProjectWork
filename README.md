@@ -27,11 +27,11 @@ The problem we will be focusing on is CC in undirected graphs, or WCC in directe
 - https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=2612692
 ##### Deliverables:
   - [x] Project Website (September 17th)
-  - [ ] Literature Review (October 1st) : https://github.com/ChristopherBlackman/COMP5704-ProjectWork/blob/master/lit_rev/lit_rev.pdf
+  - [x] Literature Review (October 1st) : https://github.com/ChristopherBlackman/COMP5704-ProjectWork/blob/master/lit_rev/lit_rev.pdf
   - [x] Presentation Outline (November 12th) https://github.com/ChristopherBlackman/COMP5704-ProjectWork/blob/master/presentation_format/overview.pdf
   - [X] Slide Presentation (Presentation November 27th, December 4th) : https://docs.google.com/presentation/d/18n5dn4Y4MRnG0c3PNT-3uTUZOgMo9L7MzfzVuGIZ91Y/edit
-  - [ ] Final paper (December 6th)
-  - [ ] Code and Data
+  - [x] Final paper (December 6th) : https://github.com/ChristopherBlackman/COMP5704-ProjectWork/blob/master/report/report.pdf
+  - [ ] Code and Data 
 ##### Relevant References:
 - [1]https://ieeexplore-ieee-org.proxy.library.carleton.ca/document/8425156/references#references
 - [2]https://ieeexplore-ieee-org.proxy.library.carleton.ca/document/6877288/references#references
