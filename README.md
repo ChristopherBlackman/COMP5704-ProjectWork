@@ -31,7 +31,8 @@ The problem we will be focusing on is CC in undirected graphs, or WCC in directe
   - [x] Presentation Outline (November 12th) https://github.com/ChristopherBlackman/COMP5704-ProjectWork/blob/master/presentation_format/overview.pdf
   - [X] Slide Presentation (Presentation November 27th, December 4th) : https://docs.google.com/presentation/d/18n5dn4Y4MRnG0c3PNT-3uTUZOgMo9L7MzfzVuGIZ91Y/edit
   - [x] Final paper (December 6th) : https://github.com/ChristopherBlackman/COMP5704-ProjectWork/blob/master/report/report.pdf
-  - [ ] Code and Data 
+  - [x] Data : https://github.com/ChristopherBlackman/COMP5704-ProjectWork/tree/master/data
+  - [x] Code : https://github.com/ChristopherBlackman/COMP5704-ProjectWork/tree/master/build/src
 ##### Relevant References:
 - [1]https://ieeexplore-ieee-org.proxy.library.carleton.ca/document/8425156/references#references
 - [2]https://ieeexplore-ieee-org.proxy.library.carleton.ca/document/6877288/references#references
