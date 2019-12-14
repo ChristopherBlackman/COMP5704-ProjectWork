@@ -18,13 +18,15 @@
 
 \begin{document}
 
-\title{}
-\author{}
+\title{A review of Afforest, and SV derivative}
+\author{Christopher Blackman}
 
 \maketitle
 \begin{abstract}
 Summary Of The Problem
 \end{abstract}
+
+\newpage
 \section{Introduction}
 
 \section{Literary Review}
@@ -306,7 +308,14 @@ Therefore, within a certain delta frequency we can always calculate the most fre
 \label{tab-freq}
 \end{table}
 \section{Analysis}
-At the core, afforest is composed of two main procedures : link, and compress. The amount of sequential work that these procedures do is propotinal to the height of their trees.
+\paragraph{}
+At the core, afforest is composed of two main procedures : link, and compress. The amount of sequential work that  these procedures do is propotinal to the height of their trees. Thus, in the worst case these procedures do $|V|$ amount of work traversing, however, we proved that with high probility that the expected height of these trees is at most $ln(n) + 1$.
+
+\paragraph{}
+The amount of work that the afforest does is bounded by the number of edges that we visit, and verticies that we visit. For all link, and compress operations we perform $|V| + |E|$ work. However, if we sample a very large CC, then we perform $|V| + |V|$ work, which can be nice in graphs that have approxility $|E|\approx|V|^2$.
+
+\paragraph{}
+Therefore, the parralism of afforest is equal to $\frac{|Work|}{|Span|} = \frac{|V| + |E|}{ln(n)}$. If we sample a big enough component, then this may also be $\frac{|V|}{ln(n)}$. As mentioned before, one may be able to implement an algorithm for finding the head of a linked list in a forest an bring down the parallism to $\frac{|V|}{1}$, however doing so results in $|V|^2$ processors being used in compress/link, when only $|V|$ are needed to traverse a list of size $ln(n)$. The maximum amount of processors needed is $\max(|V|,|E|)$ as only $|E|$ are needed for link opeartions, and $|V|$ are needed for compress operations.
 \section{Implementaiton Details}
 
 \paragraph{}
@@ -314,56 +323,36 @@ In Afforest the number of rounds that we choose to sample was $2$ since it satis
 For the most frequent element we choose a sample size of approximily 2000 as that gave a probility of 0.9999 for a delta frequency of 0.01 for the most frequent element, and the second most freqent element.
 If you know a close approximation for the size of the component, on can always use the specified above to calculate the sample size.
 Used OpenMp for our as our work stealing scheduler for scheduling threads.
-Furthermore we used C++ standard library atomic header for compare and swap opeations, as well as memory access paterens.
+Furthermore we used C++ for implementation, and used the standard library atomic header for compare and swap opeations, as well as memory access paterens.
 The graph we used was a USA roadmap with approxily 90\% connectivity.
 We used a machine with 32 cores, and 64 threads which ran an Intel Broadwell 2697Av4 at 2.6Ghz.
+The storage format that we choose was to represent out graph as an adjacancy list (as indexing was not specifically needed).
+There have been other implementations that use $csr$ matricies for storing redundant verticies.
+For storing the component graph, we choose to use an array of indicies, such that each index represents a specific node.
+Our component graph represents a directed graph to the root.
 
-
- - how does afforest work\\
- - what is the underlying data-structure for afforest (forest)\\
- - compare and swap operation (what it does, pros, cons)\\
- - link operation\\
- - Case A : in a connected component\\
- - Case B : not in a connected component\\
- - any modification does not modify previous ancestors (point out that this can\\ become a bottle neck to the algorithm)
- - compress operation\\
- - show that any compress operation results in a degree 1 tree\\
- - any race condition results in a shorter path\\
- - expected height of the tree\\
- - union find analysis (incremental randomization) \\
- - probability that it will deviate \\
- - further improvement : parallel find head of linked list\\
- - d-regular graphs\\
- - techniques that they use to sample (edge sample vs neighbour sample)\\
- - problem with generalization of\\
- - Why we want to sample our graph\\
- - How the lemma above kinda explains our goal\\
- - display algorithm and explain each step
- - finding most frequent element (proof) (not well explained in paper)\\
- - explain algorithm complexity :\\
-    - worst case\\
-    - expected case\\
-    - best case\\
-- improvements on the algorithm (use a find linked list head)\\
- 
- 
- 
- \section*{Implementation Details}
- - how is the forest represented\\
- - how is the graph stored\\
- - how do we choose our sample\\
- 
  \section{Experimental Evaluation}
- - running time
- - speed up compared with no random sampling
- - [implement thread distribution running time]
+ \paragraph{}
+ In our experiment we we only used one data set (USA roadmaps), and we tested afforest based on itself with random sampling, and itself without random sampling as a baseline. In the expirement we saw that afforest with random sampling was faster than its counter part with a speedup of about 2-3 times its counterpart. However, both level off fairly quickly compared to optimal. This could be due to the fact that a CAS operation might be focusing on only a couple nodes in the component tree. The results can be seen below in figures \ref{fig-time}, and \ref{fig-speed}.
  
+ \begin{figure}[H]
+   \includegraphics[width=\textwidth]{fig-6}
+   \caption{Runtime of both algorithms in milliseconds}
+   \label{fig-time}
+ \end{figure}
+ 
+ \begin{figure}[H]
+   \includegraphics[width=\textwidth]{fig-7}
+   \caption{Speedup of both algorithms such that $T(1) = \textit{Afforest with Sampling}$ }
+   \label{fig-speed}
+ \end{figure}
  \section{Improvements}
  - how do we reduce the number of CAS operations (since they are expensize)
   - on method could be to go up the entire tree (if two items are in the same component then we don't change a path)
   - downside (we need to traverse more of the tree)
   - find a fast parallel pointer jumping algorithm for multiple lists
   - downside (if we did this we are looking for a path of size logn, in a pool of lists of size n)
+  - look into relation of depth, and height of trees
  
  \section{Conclusions}
  \section{Bibliography}
