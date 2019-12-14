@@ -1,0 +1,101 @@
+\documentclass[]{article}
+\usepackage{hyperref}
+
+\begin{document}
+
+\maketitle
+
+\section{Literary Review}
+\paragraph{}
+As we approach the limit of De Morgan's law, we come to an age in computing where sequential computing is limited by the processor speed. Using RAM (Random Access Memory) as our base model of computation we create optimal sequential algorithms. However, in the age of big data, these sequential algorithms are not powerful enough to process all the data in reasonable time. Thus, we turn to parallel computing to where we have two models of computation which attempt to divide work. The first model assumes that all knowledge is known about the problem, then divides work base accordingly; this is known as the field of parallel computing. The second approach assumes that only local information is known about the problem, and through a series of steps, protocol definitions, and message passing an answer can be derived/approximated; this is known as the field of distributed computing. However, there are tradeoffs to both approaches like : speed, run-time, correctness, optimality. Most algorithms take a tradeoff between these two fields as computation gets further away from processors.
+
+\paragraph{}
+n this age being able to extract information for graphs becomes more prevalent in analyzation of web link graphs, social networks, and many other graphs types. One property that we can extract is graph connectivity. In graph theory graph connectivity is the minimum number of vertices, or elements that need to be removed to separate nodes into isolated subgraphs [7]. A very similar definition of this is the minimum cut of a graph where a minimum cut is defined as the minimum partition of verticies, and edges into two disjoint sets. For simple unweighted graphs David R. Krager et al [8] create a randomized sequential algorithm based on properties preserved when edge contraction is applied. The papers by David R. Krage et al [9], and Barbara Geissmann et al. [10] further improve the algorithm adding parallelisation. The downside to the parallel algorithms introduced is that they are still based on the Parallel Random Access Memory (PRAM) model which can be used to prove theoretical bounds on algorithm. But the algorithms introduced disregarded hardware limitations where CPU cache is finite, and message passing to start up threads/processes are costly. It is noted that the paper in Barbara Geissmann et al. [10] attempts to improve cache misses by creating monotonic sequences to be read, however, the paper still relies heavily on parallelism of
+ subroutines.
+ 
+ \paragraph{}
+ Another version of this problem comes from weighted undirected graphs. The goal is to find a cut where the sum of the edge weights are minimum. The Stoer-Wagner algorithm by Mechthid Stoer et al. [11]  is a good sequential recursive algorithm for solving undirected weighted graphs with non-negative weights in $O(|V||E|+|V|^2\log|V|)$ ime. Usually the min-cut with respect to weighted undirected graphs is linked with the maximum flow problem as the minimum cut is often the bottleneck of the network [12,13].
+ 
+ \paragraph{}
+ Another subfield of graph connectivity is connected components. Connected components can be divided into two categories: strongly connected components (SCC), and weakly connected components (WCC). A graph is said to be strongly connected if every vertex is reachable from every other vertex. The SCCs of a directed graph form a partition of subgraphs where they themselves are strongly connected. WCCs of a directed graph form a subgraph where not every vertex is reachable from every other vertex in that subgraph. A more formal definition is WCC is $W=G\S$ such that $G$ is a graph, and $S$ are the SCC of $G$.
+ 
+ \paragraph{}
+ One of the earliest algorithms introduced is Tarjan's algorithm which uses the properties of depth first search (DFS) to find SCC given by Rober Tarjan [16]. Later  Edsger W. Dikstra came up with the path-based strong component algorithm seen in [17]. A simpler algorithm was also found after named Kosaraju's algorithm and published by Micha Sharir [17]. However, all of these algorithms abuse depth first search to find SCC, yet for parallel algorithms DFS is hard to paralyze. In fact, it was proved by John H. Reif that DFS is P-complete [19]. Therefore parallel algorithms do not focus on DFS when computing strongly connected components seen in Lisa K. Fleischer et al. [20], and Sungpack Hong et al. [15].
+ 
+ \paragraph{}
+ There is another version of Connected Components in undirected graphs. Unlike the directed version, if there is a path, then that path is a SCC since edges are bidirectional. Therefore the undirected version of SCC focuses on finding disjoint subgraphs in the original graph, since each disjoint subgraph is itself a SCC of the original graph. A simple sequential algorithm can be done to find this where you take a DFS, or a breadth first search (BFS). Once you have exhausted your search, you select a non-traversed vertex to find the next SCC [21]. There have also been algorithms for dynamically changing graphs researched by Yossi Shiloach et al. [22].
+ 
+ \paragraph{}
+ As graphs increased in size, so did the amount of processing power required. In the field of SCC on undirected graphs there have been several subfields in which parallelization has taken affect.  The first parallel algorithms dealing with SCC on undirected graphs deal with spanning forests [23,24,25,26,27,28,29,30,31,32,33,34,35,36,37]. The algorithms by Uzi Vishkin et al. [36,4], and Awerbuch et al. [37] work by combining vertices into trees, such that a constant number of vertices are deleted every iteration, but does not guarantee a constant fraction of edges. Thus they require $O(|E| log |V|)$ work. The random algorithm by Reif [], and Phillips work by contracting vertices in the same component, which guarantees a constant number of vertices every iteration, however, it again does not guarantee a constant fraction of edges. Thus the expected work is $O(|E| log |V|)$.
+ 
+ \paragraph{}
+ Work-efficient polylogarithmic-depth parallel connectivity algorithms have been designed in theory [38,39,40,41,42,43]. These algorithms are based on random edge sampling, or filtering edges. However, these have complicated structures which may be impractical to implement in practice. 
+ 
+ \paragraph{}
+ There have been experimental parallel connectivity algorithms in the past : work on Massively Parallel Processors (MPP) by Hambrusch and TeWinkel [44]; implementations on shared memory systems include Goddard et al. [45], Hsu et al. [46], Bader et al. [47,48], Patwary et al. [49], Shun et al. [5,50],Slota et al. [2], and Sutton et al. [1]; algorithms based on distributed memory is seen in Bus and Tvrdik [51], Krishnamurthy et al. [53], Bader and JaJa[54], Caceres et al. [55],Yan et al. [3], and Fleischer et al. [6]; There has also been work done on designing connectivity algorithms for GPUs [56,57,58,1,59].
+ 
+ \section{Bibliography}
+ \begin{verbatim}
+
+ [1]https://ieeexplore-ieee-org.proxy.library.carleton.ca/document/8425156/references#references
+ [2]https://ieeexplore-ieee-org.proxy.library.carleton.ca/document/6877288/references#references
+ [3]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=2733089
+ [4]https://www-sciencedirect-com.proxy.library.carleton.ca/science/article/pii/0196677482900086
+ [5]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=2612692
+ [6]https://link.springer.com/chapter/10.1007/3-540-45591-4_68
+ [7]http://diestel-graph-theory.com/index.html
+ [8]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=234534 
+ [9]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=331608
+ [10]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=3210393
+ [11]https://dl.acm.org/citation.cfm?id=263872
+ [12]https://link.springer.com/chapter/10.1007/978-0-8176-4842-8_15
+ [13]https://dl.acm.org/citation.cfm?id=1942094
+ [14]https://dl.acm.org/citation.cfm?doid=362248.362272
+ [15]https://dl.acm.org/citation.cfm?id=2503246
+ [16]https://ieeexplore.ieee.org/document/4569669
+ [17]https://dl.acm.org/citation.cfm?id=550359
+ [18]https://www.sciencedirect.com/science/article/pii/0898122181900080
+ [19]https://www.sciencedirect.com/science/article/pii/0020019085900249
+ [20]https://dl.acm.org/citation.cfm?id=663154
+ [21]https://dl.acm.org/citation.cfm?id=362272
+ [22]https://dl.acm.org/citation.cfm?id=322235
+ [23]https://www.sciencedirect.com/science/article/pii/0020019082901314
+ [24]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=739745
+ [25]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=305744
+ [26]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=254195
+ [27]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=182530
+ [28]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=359141
+ [29]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=214077
+ [30]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=106163
+ [31]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=203622
+ [32]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=358650
+ [33]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=72952
+ [34]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=586952
+ [35]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=1398907
+ [36]https://www.sciencedirect.com/science/article/pii/0166218X84900192
+ [37]B. Awerbuch and Y. Shiloach. New connectivity and MSF algorithms for Ultracomputer and PRAM. In ICPP, pages 177--187, 1983.
+ [38]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=237563
+ [39]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=123143
+ [40]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=247524
+ [41]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=377897
+ [42]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=586952
+ [43]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=686427
+ [44]S. Hambrusch and L. TeWinkel. A study of connected component labeling algorithms on the MPP. In Supercomputing, pages 477--483, 1988.
+ [45]S. Goddard, S. Kumar, and J. F. Prins. Connected components algorithms for mesh-connected parallel computers. In Parallel Algorithms: 3rd DIMACS Implementation Challenge, pages 43--58, 1995.
+ [46]T.-S. Hsu, V. Ramachandran, and N. Dean. Parallel implementation of algorithms for finding connected components in graphs, 1997
+ [47]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=1196220
+ [48]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=1079430
+ [49]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=2358680
+ [50]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=2312018
+ [51]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=746654
+ [53]A. Krishnamurthy, S. S. Lumetta, D. E. Culler, and K. Yelick. Connected components on distributed memory machines. In Parallel Algorithms: 3rd DIMACS Implementation Challenge, pages 1--21, 1994.
+ [54]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=231641
+ [55]E. Caceres, H. Mongelli, C. Nishibe, and S. W. Song. Experimental results of a coarse-grained parallel algorithm for spanning tree and connected components. In High Performance Computing & Simulation, pages 631--637, 2010.
+ [56]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=1869229
+ [57]J. Soman, K. Kishore, and P. J. Narayanan. A fast GPU algorithm for graph connectivity. In IPDPS, pages 1--8, 2010.
+ [58]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=2192614
+ [59]https://dl.acm.org/citation.cfm?id=2059488
+  \end{verbatim}
+
+
+\end{document}
