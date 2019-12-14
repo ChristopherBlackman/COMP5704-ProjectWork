@@ -216,7 +216,7 @@ By doing so we can prove that the expected number of edges in $G'$ is $O(|V|)$.
 By defenition of $G$ $|E| = \frac{d}{2}|V|$. Each edge is sampled with probility $p=\frac{\alpha}{d}$, then the expected number of edges in $G'$ is $p\cdot |E| = \frac{\alpha}{2} = O(n)$. This can be generalized to multiple component regular $d$ graphs such that we still obtain the same $O(n)$ bound on the sample size. 
 
 \paragraph{}
-We note that this does not generalize to none d-regular graphs, but gives us an opertunity to apply a type of model onto the problem. Furthermore, unifomily sampling from $G$ creates a bais towards verticies with with high degree. Instead, we sample on neigbourhood basis such that the number of edges we sample in the neigbourhood of $v$ have probility of $\frac{\alpha}{|N(v)}|$, such that $N(v)$ is the neighbourhood of vertex $v$. If our graph is d-regular, then the proof still applies.
+We note that this does not generalize to none d-regular graphs, but gives us an opertunity to apply a type of model onto the problem. Furthermore, unifomily sampling from $G$ creates a bais towards verticies with with high degree. Instead, we sample on neigbourhood basis such that the number of edges we sample in the neigbourhood of $v$ have probility of $\frac{\alpha}{|N(v)|}$, such that $N(v)$ is the neighbourhood of vertex $v$. If our graph is d-regular, then the proof still applies.
 
 \paragraph{}
 We now present the afforest algorithm in algorithm 3. We first obtain a sample graph, by sampling a number of rounds. We then compress all the nodes to depth one, and find the most frequent component in our sample. We then skip any vertex in our sample, and process the remaining edges. With everything discused above, this results in every vertex knowing which component it belongs in. A key different of our algorithm compared to the algorithm provided by Michael Sutton et al.[1] is that we perform our compress after sampling the graph allowing us to perform all sampling in parrallel.
@@ -241,7 +241,7 @@ We now present the afforest algorithm in algorithm 3. We first obtain a sample g
 \For{$v \in V$}
 \State $compress(v,\pi)$
 \EndFor
-
+\State $c = most\_frequent\_element(\pi)$
 
 \For{$\{v\in V : \pi(v) \neq c\} $}
   \For{$\{v\in V : rounds + 1 \le i \le |N(v)|\}$}
@@ -258,6 +258,66 @@ We now present the afforest algorithm in algorithm 3. We first obtain a sample g
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
+
+\paragraph{}
+There was one detail in the original paper by Michael Sutton et al.[1] where they mention that finding the most freqent element is easily obtained with random sampling. However, we could not find any research which indicated this thus we shall prove that with a delta between the most frequent element, and the second most freqent element, we can calculate an upperbound on the number of samples needed for finding the most frequent element.
+
+\paragraph{}
+Let $X_1$ be the number of elements in our sample containing the most frequent element.
+Let $X_2$ be the number of elements in our sample containing the second most frequent element.
+Let $m_i$ be the number of elements in a set pretaining to the $i$th most frequent element, $k$ be the total number of samples chosen, and $n$ the total population.
+Then if we use random indicator varible with (1 : an element is in sample, and 0 otherwise); we get and expected value of $E(X_i) = k\frac{m_i}{n} = kf_i$, such that $f_i$ is the frequency of the $i$th  most frequent element.
+
+\paragraph{}
+If we took a $k$ size sample of elements and choose them most frequent element. Then what we are looking for is the probility that $X=X_1-X_2 \ge 0$, since $X_1 \ge X_2 \ge ... \ge X_l$. 
+Furthermore, due to linartiy of expectation $E(X)=E(X_1-X_2) = E(X_1)-E(X_2) = k(f_1-f_2)$.
+Since we are dealing with a binomial distribution, we can use a chernoff bound, which is an overapproximation of the taylor series of the binomial distribution.
+$$P(X\le(1-\sigma)\mu) \le \exp(-\frac{\sigma^2 u}{2}) \textit{ for } 1 \le \mu \le 0$$
+
+\paragraph{}
+Where $\sigma$ is a value that we choose to obtain the tail end of a distribution, and $\mu$ is the expected value of our random vairble.
+If we choose a $\sigma = 1$ then we obtain the following formula:
+$$P(X\le 0) \le \exp(-\frac{u}{2})$$
+We also want to find values when $X\ge 0$ so we solve for the following :
+\begin{align*}
+  1 - P(X\le 0) \ge& 1 - \exp(-\frac{u}{2})\\
+  P(X_1-X_2 \ge 0) \ge& 1 - \exp(-\frac{k(f_1-f_2)}{2})\\
+  k \ge& \frac{-2(1-P(X\ge 0))}{(f_1-f_2)}
+\end{align*}
+Therefore, within a certain delta frequency we can always calculate the most frequent element in constant time with probility $0<p<1$. If we look at table \ref{tab-freq} we see the exact calculations.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\multicolumn{1}{|c|}{\textbf{P(X\textgreater{}0)}} & \multicolumn{1}{c|}{\textbf{f1-f2}} & \multicolumn{1}{c|}{\textbf{k}} \\ \hline
+0.9999                                             & 0.01                                & 1842                            \\ \hline
+0.9999                                             & 0.02                                & 921                             \\ \hline
+0.9999                                             & 0.05                                & 368                             \\ \hline
+0.9999                                             & 0.1                                 & 184                             \\ \hline
+0.9999                                             & 0.2                                 & 92                              \\ \hline
+0.9999                                             & 0.4                                 & 46                              \\ \hline
+0.9999                                             & 0.5                                 & 37                              \\ \hline
+0.9999                                             & 0.7                                 & 26                              \\ \hline
+0.9999                                             & 0.9                                 & 20                              \\ \hline
+0.9999                                             & 1                                   & 18                              \\ \hline
+\end{tabular}
+\caption{Showing the sample size needed for each difference in frequency for the worst case}
+\label{tab-freq}
+\end{table}
+\section{Analysis}
+At the core, afforest is composed of two main procedures : link, and compress. The amount of sequential work that these procedures do is propotinal to the height of their trees.
+\section{Implementaiton Details}
+
+\paragraph{}
+In Afforest the number of rounds that we choose to sample was $2$ since it satisfies the property that $\alpha > 1$.
+For the most frequent element we choose a sample size of approximily 2000 as that gave a probility of 0.9999 for a delta frequency of 0.01 for the most frequent element, and the second most freqent element.
+If you know a close approximation for the size of the component, on can always use the specified above to calculate the sample size.
+Used OpenMp for our as our work stealing scheduler for scheduling threads.
+Furthermore we used C++ standard library atomic header for compare and swap opeations, as well as memory access paterens.
+The graph we used was a USA roadmap with approxily 90\% connectivity.
+We used a machine with 32 cores, and 64 threads which ran an Intel Broadwell 2697Av4 at 2.6Ghz.
+
 
  - how does afforest work\\
  - what is the underlying data-structure for afforest (forest)\\
