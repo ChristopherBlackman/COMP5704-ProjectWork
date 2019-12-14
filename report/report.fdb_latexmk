@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1576272086 "report.tex" "report.pdf" "report" 1576272087
+["pdflatex"] 1576292397 "report.tex" "report.pdf" "report" 1576292397
   "/etc/texmf/web2c/texmf.cnf" 1576199287 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1511824771 3332 103109f5612ad95229751940c61aada0 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1480098698 1004 54797486969f23fa377b128694d548df ""
@@ -32,6 +32,7 @@
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb" 1480098733 32080 340ef9bf63678554ee606688e7b5339d ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb" 1480098733 32298 c6d25bb16d1eac01ebdc6d7084126a1e ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb" 1480098733 32001 6aeea3afe875097b1eb0da29acd61e28 ""
+  "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb" 1480098733 30251 6afa5cb1d0204815a708a080681d4674 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1480098733 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb" 1480098733 36281 c355509802a035cadc5f15869451dcee ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1480098733 35752 024fb6c41858982481f6968b5fc26508 ""
@@ -92,11 +93,13 @@
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1576200569 4133121 45f5ae6f1a292f8cfa715a993731b4c9 ""
   "figures/fig-1.pdf" 1576266692 15117 77418b250895f2bbeea7151135a751a2 ""
   "figures/fig-2.pdf" 1576266692 15210 ae5f59b2923a8f39bc163edc733fc8a3 ""
-  "report.aux" 1576272086 3426 c984ee4f839def041426c0fb08f1e1f4 ""
-  "report.out" 1576272086 349 04c523af7805e3964076c6e1203aad98 ""
-  "report.tex" 1576272085 20265 9813dd210f2cba4410a5e19bb8f413ef ""
+  "figures/fig-3.pdf" 1576273213 14536 46bae3af3fbed0120739eccd40232624 ""
+  "figures/fig-5.pdf" 1576273132 14380 68e125363ac5909d8d5efe911ad2a5ca ""
+  "report.aux" 1576292397 4658 0c07e1b0ed9cca41ef47ef8d69ef607c ""
+  "report.out" 1576292397 349 04c523af7805e3964076c6e1203aad98 ""
+  "report.tex" 1576292396 26483 ec95afb40389224ecf7f1ce3fe30ba37 ""
   (generated)
-  "report.pdf"
-  "report.log"
-  "report.aux"
   "report.out"
+  "report.log"
+  "report.pdf"
+  "report.aux"

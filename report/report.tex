@@ -135,8 +135,69 @@ If we apply link to all edges, then the resulting component tree represents the 
 \paragraph{}
 By defenition a CC is connected if there exists a path between all pairs in the component. If we take one such path $x_1,x_2,...x_{n-1},x_n$ then link would be applied to : $(x_1,x_2),...,(x_{n-1},x_n)$. Which means all the nodes in the path will be in the component tree. If we take take the set of all paths and convert it to the set of all edges, then every vertex that is an element of a CC $C_i$, is also an element of a unique component tree coresponding $C_i$. Since we apply link to all edges, then we cover the set of all possible paths. Therefore the a resulting component tree represents a connected component in the original graph.
 \QEDA
+
+\paragraph{}
+The second most important opeartion of afforest is the \textit{compress} opeation seen in Algorithm 2.
+Compress makes a single node search for the root of its component tree. If we apply compress to all edges, then this results in a depth one tree. This is seen in figure \ref{fig-compress} where a tree is converted to a depth one tree.
+
+\paragraph{}
+A depth one tree is obtained when all nodes apply the compress operation. At each iteration in the while loop a node reduces it's depth by at least one. We say at least one since at any time another processor could be modifying the path, however, any modificaiton to the path results in a shorter path. Once a node has reached the root of the tree we stop, thus create a depth one node. If we apply this to all nodes then all nodes will have depth one.
  
  
+ \begin{algorithm}
+\caption{Compress Operation}\label{euclid}
+\begin{algorithmic}[1]
+\Procedure{compress}{$v$ , $\pi$}
+\While{$\pi(v) \neq \pi(\pi(v))$}
+\State $\pi(v) \gets \pi(\pi(v))$
+\EndWhile\label{euclidendwhile}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Before Compress Operation]{{\includegraphics[width=5cm]{fig-3} }}%
+    \qquad
+    \subfloat[After Compress Operation]{{\includegraphics[width=3cm]{fig-5} }}%
+    \caption{Example of a Compress Operation}%
+    \label{fig-compress}%
+\end{figure}
+ 
+ \paragraph{}
+ One might notice that we traverse that we may traverse the whole tree in link, and that we may traverse the whole tree in compress.
+ This would result in a sequential span of the maximum height of one of these tree. If under the assumption that only the roots of the tree change, we propose an exact expected value for the height of the tree. If our assumption is false, then we still would have obtained a lowerbound on the expected height of the tree. Inorder to prove this we must look at Union-Find data structure invented by Kruskal[60].
+ 
+ \paragraph{}
+ Union-Find is an algorithm similar to afforest. The data structure consists of a forest of trees, such that each tree represents components in a union. If we want to find the union of $\{x_1,x_2\}$ then the algorithm finds the root of $x_1$, and the root of $x_2$.
+ If the roots are in the same tree then no work is needed to be done since they are in the same set. If the roots are not in the same tree, then smallest root is chosen as the new root of the tree such that the largest root is a child of the smallest root. In other words if $x_1 < x_2$, then set $\pi(x_2) = x_1$. Under the assumption we made that only roots change similar to figure \ref{fig-link} a), then this data structure exhibits the same properties as afforest.
+ 
+ \paragraph{}
+ Obviously the worst case results in a tree with length $n$, where $n$ is the number of elements in the set. Therefore let us consider the expected case. First we assume that the addition of union-find requests are uniformily random. Second, we only focus on the largest tree durring formation. By doing so we get an upper bound on the expected height, and we can apply backwards analysis. 
+
+\paragraph{} 
+Thus, let $X$ be the height of the largest tree. Let $X_i = 1$ when we pick a node at iteration $i$ that increases the height, and let $X_i=0$ otherwise. There is no bound on the number of iterations, but we choose a bound $n$ as we can form any permutation of sets, thus each iteration results in a union. Now we condider the largest tree $T$. At any iteration $i$, $T$ grows at most by $1$ as we add an edge, or we add a tree which is at most the height of $T$. If we attempt to build our tree with $i=0$, it is hard to count. Therefore, let us consider T at iteration $i$. Between iteration $i$ and $i-1$ we choose one pair out of the $(n-(i))$ possible choices that will increase the height of the tree. Therefore the probility that we choose that pair between one iteration is : $\frac{1\cdot(n-(i+1))!}{(n-i)!} = \frac{(n-i+-1)!}{(n-i)!} = \frac{1}{(n-i)}$. Therefore if we apply this over all iterations then the expected maximum height is :
+\begin{align*}
+  E(X) = E(\sum_{i=1}^{n}X_i) = \sum_{i=1}^{n}E(X_i) = \sum_{i=1}^{n}\frac{1}{n-i} = \sum_{i=1}^{n}\frac{1}{i} \le Hn(n) \le ln(n) +1
+\end{align*}
+
+Therefore we have showed that the expected height is not more than $O(ln(n))$, but how much does this deviate from the expected value.
+We can use Markovs Inequality to calculate with high probility that this is true. We assume that $a = {n^{-d}}$, where $d$ is a constant. We can then use Markov's Inequality to prove that :
+\begin{align*}
+  P(X\ge a) = P(X \ge n^{-d}) \le \frac{E(X)}{a} = \frac{ln(n)}{n^{-d}}\\
+  lim_{n\rightarrow\infty} \frac{ln(n)}{n^{-d}} = lim_{n\rightarrow\infty}\frac{n^{-1}}{(-d)(n^{-d-1})} = 0 
+\end{align*}
+Therefore as $n$ approaches infinity, then we can say with hight probility that our tree does not exceed a height of $n^{-d}$ since $1-P(X \ge n^{-d}) = P(X \le n^{-d}) = 1$. This is reassuring since the taylor series of $log$ contains a series of additions, and subtraction of exponentials. Therefore we can say that this is a good approximation to logorithmic height.
+
+
+\paragraph{}
+If we did not make the assumption that addition of nodes is only at the roots, then the algorithms would not be the same. However, if we replace the double jump, with a single jump in our link operation on line 8, then we can remove our assumption. By removeing the line, we ensure that when we connect two components, the height increases by at most one, and we can use the same backwards analysis technique that we devised for union find. Therefore, with slight modification the maximum depth of the algorithm is at most $ln(n)$.
+
+\paragraph{}
+Furthermore, although not specified in the original paper of afforest[1], it may be possible to remove the sequential span of traversing up the tree by performing a parrallel find head of link list. However, one would be doing $O(n)$ work, instead of $O(ln(n)$ work inorder to get a span of one, which may more expensive. This is due to the fact that we would be searching in a forest of linked lists, instead of a single linked list.
+
+
  - how does afforest work\\
  - what is the underlying data-structure for afforest (forest)\\
  - compare and swap operation (what it does, pros, cons)\\
@@ -244,6 +305,7 @@ By defenition a CC is connected if there exists a path between all pairs in the 
  [57]J. Soman, K. Kishore, and P. J. Narayanan. A fast GPU algorithm for graph connectivity. In IPDPS, pages 1--8, 2010.
  [58]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=2192614
  [59]https://dl.acm.org/citation.cfm?id=2059488
+ [60]https://www.ams.org/journals/proc/1956-007-01/S0002-9939-1956-0078686-7/home.html
   \end{verbatim}
 
 

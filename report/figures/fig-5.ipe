@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70206" creator="Ipe 7.2.7">
-<info created="D:20191213102556" modified="D:20191213163959"/>
+<info created="D:20191213163833" modified="D:20191213163833"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -254,49 +254,37 @@ h
 <page>
 <layer name="alpha"/>
 <view layers="alpha" active="alpha"/>
-<path layer="alpha" stroke="black">
+<path layer="alpha" matrix="1 0 0 1 -48.7003 -16.562" stroke="black">
 16 0 0 16 128 768 e
 </path>
-<path matrix="1 0 0 1 64 0" stroke="black">
-16 0 0 16 128 768 e
-</path>
-<path matrix="1 0 0 1 128 32" stroke="black">
-16 0 0 16 128 768 e
-</path>
-<path matrix="1 0 0 1 128 -32" stroke="black">
-16 0 0 16 128 768 e
-</path>
-<path stroke="black" arrow="normal/normal">
-240 800 m
-208 768 l
-</path>
-<path stroke="black" arrow="normal/normal">
-240 736 m
-208 768 l
-</path>
-<path stroke="black" arrow="normal/normal">
-176 768 m
-144 768 l
-</path>
-<text matrix="1 0 0 1 -2.35614 -3.3482" transformations="translations" pos="256 800" stroke="black" type="label" width="4.981" height="6.42" depth="0" valign="baseline">6</text>
-<text matrix="1 0 0 1 -2.60416 -3.53422" transformations="translations" pos="256 736" stroke="black" type="label" width="4.981" height="6.42" depth="0" valign="baseline">8</text>
-<text matrix="1 0 0 1 -2.48015 -3.3482" transformations="translations" pos="192 768" stroke="black" type="label" width="4.981" height="6.42" depth="0" valign="baseline">5</text>
-<text matrix="1 0 0 1 -2.79017 -3.59622" transformations="translations" pos="128 768" stroke="black" type="label" width="4.981" height="6.42" depth="0" valign="baseline">4</text>
-<path stroke="black" arrow="normal/normal">
+<path matrix="1 0 0 1 -48.7003 -16.562" stroke="black" arrow="normal/normal">
 128 784 m
 12.6491 0 0 12.6491 116 780 112 768 a
 </path>
-<path stroke="black" dash="dashed" arrow="normal/normal">
-240 800 m
-178.885 0 0 178.885 208 624 128 784 a
+<path matrix="1 0 0 1 15.1404 15.4381" stroke="black">
+16 0 0 16 128 768 e
 </path>
-<path stroke="black" dash="dashed" arrow="normal/normal">
-192 784 m
-60.0333 0 0 60.0333 162 732 132 784 a
+<path matrix="1 0 0 1 15.2997 -24.562" stroke="black">
+16 0 0 16 128 768 e
 </path>
-<path stroke="black" dash="dashed" arrow="normal/normal">
-240 736 m
-121.249 0 0 -121.249 199.167 850.167 128 752 a
+<path matrix="1 0 0 1 15.2997 -64.562" stroke="black">
+16 0 0 16 128 768 e
 </path>
+<path matrix="1 0 0 1 -48.7003 79.4381" stroke="black" arrow="normal/normal">
+176 704 m
+144 672 l
+</path>
+<path matrix="1 0 0 1 -48.7003 79.4381" stroke="black" arrow="normal/normal">
+176 664 m
+144 672 l
+</path>
+<path matrix="1 0 0 1 -48.7003 79.4381" stroke="black" arrow="normal/normal">
+176 624 m
+144 672 l
+</path>
+<text matrix="1 0 0 1 -51.0295 76.496" transformations="translations" pos="128 672" stroke="black" type="label" valign="baseline">4</text>
+<text matrix="1 0 0 1 -51.0907 76.4102" transformations="translations" pos="192 704" stroke="black" type="label" valign="baseline">5</text>
+<text matrix="1 0 0 1 -50.9314 76.5695" transformations="translations" pos="192 664" stroke="black" type="label" valign="baseline">6</text>
+<text matrix="1 0 0 1 -50.772 76.4102" transformations="translations" pos="192 624" stroke="black" type="label" valign="baseline">8</text>
 </page>
 </ipe>
