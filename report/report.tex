@@ -195,8 +195,69 @@ Therefore as $n$ approaches infinity, then we can say with hight probility that 
 If we did not make the assumption that addition of nodes is only at the roots, then the algorithms would not be the same. However, if we replace the double jump, with a single jump in our link operation on line 8, then we can remove our assumption. By removeing the line, we ensure that when we connect two components, the height increases by at most one, and we can use the same backwards analysis technique that we devised for union find. Therefore, with slight modification the maximum depth of the algorithm is at most $ln(n)$.
 
 \paragraph{}
-Furthermore, although not specified in the original paper of afforest[1], it may be possible to remove the sequential span of traversing up the tree by performing a parrallel find head of link list. However, one would be doing $O(n)$ work, instead of $O(ln(n)$ work inorder to get a span of one, which may more expensive. This is due to the fact that we would be searching in a forest of linked lists, instead of a single linked list.
+Furthermore, although not specified in the original paper of afforest[1], it may be possible to remove the sequential span of the algorithm by traversing up the tree by performing a parrallel find head of link list. However, one would be doing $O(n)$ work, instead of $O(ln(n))$ work inorder to get a span of one, which may more expensive. This is due to the fact that we would be searching in a forest of linked lists, instead of a single linked list.
 
+\paragraph{}
+Sampling is second key component of afforest. By sampling, afforest is able to able to reduce the amount of work that it performs, thus speeding up the algorithm. Afforest does this by taking a linear amount of nodes to sample for the largest CC. Afforest then proccesses all the verticies that are not an element of the largest CC, and processes all the edges associated with them. Since we are performing work on an undirected graph, edges are bidirectional therefore if we missed a component that is a subset in the largest CC, there is always an edge that we do not skip that is still connected to the component. If we look into figure \ref{fig-skip} we can see that we skip a majority of the edges in the largest component, and process the rest.
+
+
+\begin{figure}[H]%
+    \centering
+    {\includegraphics[width=7cm]{fig-4} }%
+    \caption{Component skip : where we skip edges in the largest component, and process the rest of the graph}
+    \label{fig-skip}%
+\end{figure}
+\paragraph{}
+The general reason sampling might be a good idea comes from from the work seen in Frieze et al.[61].
+Frieze et al. showed that given a d-regular graph $G$, and a subset of the graph $G'$ or the sampled graph they showed that by sampling edges with $p \ge \frac{\alpha}{d}$ for some $\alpha > 1$, then $G'$ contains a component of size $\Theta(|V|)$. 
+
+\paragraph{}
+By doing so we can prove that the expected number of edges in $G'$ is $O(|V|)$.
+By defenition of $G$ $|E| = \frac{d}{2}|V|$. Each edge is sampled with probility $p=\frac{\alpha}{d}$, then the expected number of edges in $G'$ is $p\cdot |E| = \frac{\alpha}{2} = O(n)$. This can be generalized to multiple component regular $d$ graphs such that we still obtain the same $O(n)$ bound on the sample size. 
+
+\paragraph{}
+We note that this does not generalize to none d-regular graphs, but gives us an opertunity to apply a type of model onto the problem. Furthermore, unifomily sampling from $G$ creates a bais towards verticies with with high degree. Instead, we sample on neigbourhood basis such that the number of edges we sample in the neigbourhood of $v$ have probility of $\frac{\alpha}{|N(v)}|$, such that $N(v)$ is the neighbourhood of vertex $v$. If our graph is d-regular, then the proof still applies.
+
+\paragraph{}
+We now present the afforest algorithm in algorithm 3. We first obtain a sample graph, by sampling a number of rounds. We then compress all the nodes to depth one, and find the most frequent component in our sample. We then skip any vertex in our sample, and process the remaining edges. With everything discused above, this results in every vertex knowing which component it belongs in. A key different of our algorithm compared to the algorithm provided by Michael Sutton et al.[1] is that we perform our compress after sampling the graph allowing us to perform all sampling in parrallel.
+
+
+\begin{algorithm}
+\caption{Link Operation}\label{euclid}
+\begin{algorithmic}[1]
+\Procedure{Afforest}{$V,E,\textit{rounds}$}
+
+\For{$v \in V$}
+\State $\pi(v) \gets v$
+\EndFor
+
+\For{$i \gets 1 $ \textbf{to} \textit{rounds} }
+  \For{$\{v\in V : i \le |N(v)|\}$}
+  \State $link(v,N_i(v),\pi)$
+  \EndFor
+\EndFor
+
+
+\For{$v \in V$}
+\State $compress(v,\pi)$
+\EndFor
+
+
+\For{$\{v\in V : \pi(v) \neq c\} $}
+  \For{$\{v\in V : rounds + 1 \le i \le |N(v)|\}$}
+  \State $link(v,N_i(v),\pi)$
+  \EndFor
+\EndFor
+
+
+\For{$v \in V$}
+\State $compress(v,\pi)$
+\EndFor
+
+\Return $\pi$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
 
  - how does afforest work\\
  - what is the underlying data-structure for afforest (forest)\\
@@ -306,6 +367,7 @@ Furthermore, although not specified in the original paper of afforest[1], it may
  [58]https://dl-acm-org.proxy.library.carleton.ca/citation.cfm?id=2192614
  [59]https://dl.acm.org/citation.cfm?id=2059488
  [60]https://www.ams.org/journals/proc/1956-007-01/S0002-9939-1956-0078686-7/home.html
+ [61]https://arxiv.org/abs/1605.06643
   \end{verbatim}
 
 

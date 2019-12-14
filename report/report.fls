@@ -149,6 +149,11 @@ INPUT ./figures/fig-3.pdf
 INPUT ./figures/fig-5.pdf
 INPUT ./figures/fig-5.pdf
 INPUT ./figures/fig-5.pdf
+INPUT ./figures/fig-4.pdf
+INPUT ./figures/fig-4.pdf
+INPUT ./figures/fig-4.pdf
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmti7.tfm
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmti7.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmtt10.tfm
 INPUT report.aux
 INPUT ./report.out
