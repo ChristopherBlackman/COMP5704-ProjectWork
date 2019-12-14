@@ -14,7 +14,7 @@ There are other problems that come out of the feild of graph connectivity such a
 A cut C=(S,T) of a graph is a partition of V of a graph G=(V,E) into two subsets S and T, such that the cut is the edges that have an endpoint in both S, and T. A cut where it's size or weight is no larger than any-other cut is defined as the min-cut.
 However, for the purpose of this report we will only be dealing with undirected graphs.
 
-Tarjan was one of the first papers to compute SCC in directed graphs, and undirected graphs. He used the .. <to be cont.>
+The problem we will be focusing on is CC in undirected graphs, or WCC in directed graphs. We will be implementing the Afforest algorithm and performing a paper review to fill in gaps/proofs in the original paper.
 
 ##### Data Set(s):
 - http://users.diag.uniroma1.it/challenge9/download.shtml
